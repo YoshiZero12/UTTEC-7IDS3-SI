@@ -32,9 +32,10 @@
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-mono);
+      
       min-height: 100vh;
       overflow-x: hidden;
-      animation: screenFlicker 9s infinite;
+      
     }
 
     /* Scanlines */
@@ -111,6 +112,8 @@
       animation: fadeIn 0.6s 3.1s ease both;
       opacity: 0;
       display: inline-block;
+      will-change: transform;
+      opacity: 1 !important;
     }
 
     .mr-sub {
@@ -164,6 +167,8 @@
     .t-out { color: #c08080; padding-left: 1.5rem; }
     .t-cursor {
       display: inline-block;
+      will-change: transform;
+      opacity: 1 !important;
       width: 7px; height: 0.85em;
       background: var(--red);
       animation: blink 1s step-end infinite;
@@ -193,6 +198,7 @@
     /* ADD BUTTON */
     .btn-add {
       font-family: var(--font-mono);
+      
       font-size: 0.68rem;
       padding: 0.4rem 1rem;
       background: transparent;
@@ -295,6 +301,7 @@
 
     .btn {
       font-family: var(--font-mono);
+      
       font-size: 0.68rem;
       padding: 0.45rem 0.9rem;
       cursor: pointer;
@@ -373,6 +380,7 @@
       border: 1px solid var(--border);
       color: var(--text);
       font-family: var(--font-mono);
+      
       font-size: 0.8rem;
       padding: 0.6rem 0.9rem;
       outline: none;
@@ -401,6 +409,7 @@
       background: transparent; color: #aa6060;
       border: 1px solid var(--border);
       font-family: var(--font-mono);
+      
       font-size: 0.68rem;
       padding: 0.5rem 1rem;
       cursor: pointer;
@@ -412,6 +421,7 @@
       background: var(--red); color: #000;
       border: 1px solid var(--red);
       font-family: var(--font-mono);
+      
       font-size: 0.68rem;
       font-weight: 700;
       padding: 0.5rem 1.2rem;
@@ -445,9 +455,7 @@
     @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
     @keyframes fadeUp  { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
 
-    @keyframes screenFlicker {
-      0%,93%,100%{opacity:1;} 94%{opacity:0.96;} 96%{opacity:0.91;} 97%{opacity:1;}
-    }
+
 
     @keyframes glitchSafe {
       0%  {transform:translate(0); text-shadow: 0 0 30px var(--red), 0 0 80px var(--red-dim);}
@@ -466,14 +474,34 @@
       100%{transform:translate(0);filter:none;}
     }
 
+
     /* Initial card animation delays */
     #project-grid .card:nth-child(1){animation-delay:3.7s;}
     #project-grid .card:nth-child(2){animation-delay:3.85s;}
     #project-grid .card:nth-child(3){animation-delay:4.0s;}
+
+    /* Flicker overlay — isolated so MR ROBOT is never affected */
+    #flicker-overlay {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      background: transparent;
+      animation: screenFlicker 9s infinite;
+    }
+
+    @keyframes screenFlicker {
+      0%,92%,100% { background: transparent; }
+      93%  { background: rgba(0,0,0,0.04); }
+      95%  { background: rgba(0,0,0,0.09); }
+      96%  { background: transparent; }
+      97%  { background: rgba(0,0,0,0.06); }
+    }
   </style>
 </head>
 <body>
 
+
+<div id="flicker-overlay"></div>
 <!-- BOOT -->
 <div id="boot">
   <div class="boot-logo">fsociety</div>
